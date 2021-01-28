@@ -32,4 +32,4 @@ Ogni partecipante è tenuto a caricare nella propria cartella, all'interno del r
 
 - demo video.
 
-⚠️ **I progetti devono essere caricati entro mercoledì 17 febbraio.** ⚠️
+⚠️ **I progetti devono essere caricati entro mercoledì 10 febbraio.** ⚠️

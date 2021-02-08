@@ -1,4 +1,4 @@
-# Microsoft Azure Challenge 2021
+# AzureChamp Challenge 2021
 Il dipartimento di Informatica in collaborazione con Proge-Software e Microsoft presenta la AzureChamp Challenge 2021 in cui, progetti basati sulle tecnologie fornite da Microsoft Azure, si sfideranno per decidere chi riesce a sfruttare al meglio i servizi del Cloud Computing.
 
 ### Data: Mercoledì 17 febbraio 2021 dalle ore 10.00 alle ore 13.00

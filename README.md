@@ -5,10 +5,10 @@ Il dipartimento di Informatica in collaborazione con Proge-Software presenta la 
 
 
 ### Programma
-- 10:00 Introduzione all'evento dal Dipartimento di Informatica dell'Università di Salerno
-- 10:10 Intervento di Proge-Software
-- 10:20 Intervento della guest-star Microsoft
-- 10:30 Presentazione dei progetti
+- 10:00 Introduzione all'evento da parte del prof. Vittorio Scarano del Dipartimento di Informatica dell'Università di Salerno
+- 10:10 Intervento di Giorgio di Nardo App & Data Director di Proge-Software
+- 10:20 Intervento di Cristian Mezzetti Solution Specialist di Microsoft
+- 10:30 Presentazione dei progetti 
 - 12:30 Premiazione e chiusura
 
 ### Modalità di esposizione del progetto

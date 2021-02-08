@@ -1,8 +1,7 @@
 # AzureChamp Challenge 2021
-Il dipartimento di Informatica in collaborazione con Proge-Software e Microsoft presenta la AzureChamp Challenge 2021 in cui, progetti basati sulle tecnologie fornite da Microsoft Azure, si sfideranno per decidere chi riesce a sfruttare al meglio i servizi del Cloud Computing.
+Il Dipartimento di Informatica dell'Università degli Studi di Salerno, in collaborazione con Proge-Software e Microsoft, presenta la AzureChamp Challenge 2021 in cui i progetti basati sulle tecnologie fornite da Microsoft Azure, sviluppati dagli studenti, si sfideranno per decidere chi riesce a sfruttare al meglio i servizi del Cloud Computing.
 
 ### Data: Mercoledì 17 febbraio 2021 dalle ore 10.00 alle ore 13.00
-
 
 ### Programma
 - 10:00 Introduzione all'evento da parte del prof. Vittorio Scarano del Dipartimento di Informatica dell'Università di Salerno

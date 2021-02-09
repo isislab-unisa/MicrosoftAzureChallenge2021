@@ -20,7 +20,7 @@ L'esposizione di ogni progetto prevede:
 
 - domande e commenti della giuria (3 minuti);
 
-### Premi per i vincitori
+### I vincitori
 **Premi giuria tecnica**
 
 :1st_place_medal: Primo posto

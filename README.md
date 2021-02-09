@@ -20,6 +20,19 @@ L'esposizione di ogni progetto prevede:
 
 - domande e commenti della giuria (3 minuti);
 
+### Premi per i vincitori
+**Premi giuria tecnica**
+
+:1st_place_medal: Primo posto
+
+:2nd_place_medal: Secondo posto
+
+:3rd_place_medal: Terzo posto
+
+**Premio giuria popolare**
+
+:medal_sports: Progetto favorito dalla giuria popolare
+
 ### Criteri di valutazione
 I progetti proposti saranno valutati da una giuria tecnica composta da personale scelto di Proge-Software e Microsoft.  
 I criteri di valutazione sono i seguenti:

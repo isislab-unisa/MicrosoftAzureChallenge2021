@@ -1,0 +1,56 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.inUse {
+  height: 25px;
+  width: 25px;
+  background-color: red;
+  border-radius: 50%;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+.free {
+  height: 25px;
+  width: 25px;
+  background-color: green;
+  border-radius: 50%;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+.horizontal-tag {
+  width: 100%;
+  padding: 10px 20px;
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+  overflow-y: hidden;
+}
+
+.horizontal-tag::-webkit-scrollbar {
+  width: 3px;
+  height: 5px;
+}
+
+.horizontal-tag::-webkit-scrollbar-track {
+  background: rgba(233, 231, 231, 0.89);
+  border-radius: 10px;
+}
+
+.horizontal-tag::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: rgb(32, 32, 32);
+}
+
+.small-padding {
+  padding: 0px;
+}

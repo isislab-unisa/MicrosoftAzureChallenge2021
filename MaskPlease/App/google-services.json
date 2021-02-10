@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "737894290949",
+    "project_id": "maskplease-433fd",
+    "storage_bucket": "maskplease-433fd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:737894290949:android:f88bb09b4ff5050b14ae6c",
+        "android_client_info": {
+          "package_name": "com.fernet.maskplease"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "737894290949-3rbejtgesseq9tn2hg41e8p5jgl8vl3l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDM0mYzqXo3QbdgvE2qP9R46BKXdirwa4Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "737894290949-3rbejtgesseq9tn2hg41e8p5jgl8vl3l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

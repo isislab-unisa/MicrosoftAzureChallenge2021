@@ -1,0 +1,36 @@
+{
+  "expo": {
+    "name": "MaskPlease",
+    "slug": "MaskPlease",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#8d6cae"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+    "googleServicesFile": "./google-services.json",
+    "useNextNotificationsApi": true,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#8d6cae"
+      },
+
+      "package": "com.fernet.maskplease"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
+  }
+}

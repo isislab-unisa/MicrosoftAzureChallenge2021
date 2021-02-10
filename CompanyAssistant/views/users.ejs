@@ -1,0 +1,336 @@
+<%if (user !=null) { if (user !="admin" ) {%>
+    <!DOCTYPE html>
+    <html>
+
+    <head>
+        <title>
+            <%= title %>
+        </title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel='stylesheet' href='/stylesheets/style.css' />
+        <link rel='stylesheet' href='/stylesheets/popup.css' />
+        <script src='/script.js'></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+        <style>
+            .carousel .item {
+                height: 40%;
+            }
+
+            .item img {
+                position: absolute;
+                top: 0;
+                left: 0;
+                min-height: 40%;
+            }
+
+            input::-webkit-contacts-auto-fill-button,
+            input::-webkit-credentials-auto-fill-button {
+                visibility: hidden;
+                pointer-events: none;
+                position: absolute;
+                right: 0;
+            }
+        </style>
+        <script>
+            function logout() {
+                window.location.href = './logout';
+            }
+            function register() {
+
+                name = document.getElementById('inputName').value;
+                lastname = document.getElementById('inputLastname').value;
+                username = document.getElementById('inputUsername').value;
+                password = document.getElementById('inputPassword').value;
+                userType = document.getElementById('userType').value;
+
+                if (name.trim() != "" && lastname.trim() != "" && username.trim() != "" && password.trim() != "" && userType.trim() != "") {
+
+                    $.post("./register", {
+                        name: document.getElementById('inputName').value,
+                        lastname: document.getElementById('inputLastname').value,
+                        username: document.getElementById('inputUsername').value,
+                        password: document.getElementById('inputPassword').value,
+                        userType: document.getElementById('userType').value
+                    },
+                        function (data, status) {
+                            if (status == "success") {
+                                mostraAlertReload("Utente inserito correttamente!")
+                            } else {
+                                mostraAlertReload("Errore nell'inserimento!")
+                            }
+                        });
+                } else {
+                    mostraAlert("Tutti i campi sono obbligatori!")
+                }
+            }
+
+            function deleteUser(username) {
+
+                var r = confirm("Sei sicuro di voler eliminare " + username + "?");
+                if (r == true) {
+
+                    $.post("./deleteUser", {
+                        username: username
+                    },
+                        function (data, status) {
+                            if (status == "success") {
+                                mostraAlertReload("Utente eliminato correttamente!")
+                            } else {
+                                mostraAlertReload("Errore nell'eliminazione!")
+                            }
+                        });
+                }
+            }
+        </script>
+    </head>
+
+
+    <body style="padding:0;padding-bottom:0px;margin:0;background-color:rgba(245, 255, 255, 0.938);">
+
+        <!-- Alert Section -->
+        <div id="alertBox">
+            <label id="msg"></label>
+            <p style="text-align: center;">
+                <input value="ok" id="btnA" type="button" onClick='nascondiDIV();'>
+            </p>
+        </div>
+        <div id="alertBoxReload">
+            <label id="msgReload"></label>
+            <p style="text-align: center;">
+                <input value="ok" id="btnA" type="button" onClick='nascondiDIV(),aggiorna();'>
+            </p>
+        </div>
+        <div id="alertBoxConfirm">
+            <label id="msgConfirm"></label>
+            <p style="text-align: center;">
+                <input value='Annulla' id='btnAN' type='button' onClick='nascondiDIV();'>
+                <input value='Ok' id='btnA' type='button' onClick='del()'>
+            </p>
+        </div>
+        <div id="back">
+        </div>
+        <!-- End Alert -->
+
+<!-- MENU SECTION -->
+        <div class="card" style="padding: 0;margin-bottom:10px;margin:0; border:none">
+            <div class="card-body"
+                style="padding: 5;margin:0;padding-bottom:15px;border-bottom: 1px solid rgb(187, 179, 179);  box-shadow: 1px 1px #eeeeee;">
+
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="#">CompanyAssistant</a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false"
+                            aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarText">
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                <li class="nav-item" style="padding: 0% 10px;">
+                                    <a class="nav-link" href="./index">Home</a>
+                                </li>
+                                <%if (user.userType=="admin" ){%>
+                                    <li class="nav-item" style="padding: 0% 10px;">
+                                        <a class="nav-link active" aria-current="page" style="color: #0062cc;"
+                                            href="./users">Utenti</a>
+                                    </li>
+                                    <%}%>
+                                        <li class="nav-item" style="padding: 0% 10px;">
+                                            <a class="nav-link" href="./vms">Macchine Virtuali</a>
+                                        </li>
+                                        <li class="nav-item" style="padding: 0% 10px;">
+                                            <a class="nav-link" href="./bot">Company BOT</a>
+                                        </li>
+                                        <li class="nav-item" style="padding: 0% 10px;">
+                                            <a class="nav-link" href="./info">Info</a>
+                                        </li>
+                            </ul>
+                            <span class="navbar-text">
+                                <button class="btn btn-primary my-2 my-sm-0" type="button"
+                                    onclick="logout()">Logout</button>
+                            </span>
+                        </div>
+                </nav>
+            </div>
+        </div>
+
+<!-- END MENU SECTION -->
+        <div class="container" style="margin-top: 2%;">
+            <div class="row row-cols-1 row-cols-md-4 g-4" style="padding: 15;">
+
+                <div class="col" style="margin-top: 5%;">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <h5 style="text-align: center; vertical-align:middle;">Nuovo Utente</h5>
+                        </div>
+                        <div class="card-body">
+                            <div style="padding: 5px 0; text-align:left;">
+                                <label for="userName">Dati Utente</label>
+                                <input type="text" name="userName" id="inputName" class="form-control"
+                                    placeholder="Nome" required="" autofocus="">
+                            </div>
+                            <div style="padding: 5px 0; "><input type="text" name="userLastname" id="inputLastname"
+                                    class="form-control" placeholder="Cognome" required="" autofocus=""></div>
+
+                            <div style="padding: 5px 0; text-align:left;">
+                                <label for="userType">Tipo Utente</label>
+                                <select class="form-control" id="userType">
+                                    <% types.forEach(function(element){%>
+                                        <option value="<%=element.name%>">
+                                            <%=element.name%>
+                                        </option>
+                                        <%});%>
+                                </select>
+                            </div>
+                            <div style="padding: 5px 0; text-align:left;">
+                                <label for="userName">Credenziali Utente</label><input type="text" name="username"
+                                    id="inputUsername" class="form-control" placeholder="Username" required=""
+                                    autofocus="">
+                            </div>
+                            <div style="padding: 5px 0; "><input type="password" name="password" id="inputPassword"
+                                    class="form-control" placeholder="Password" required=""></div>
+                            <div style="text-align: center;">
+                                <button class="btn btn-lg btn-primary btn-block" onclick=register()
+                                    style="margin-top:10px;padding: 5px 30px;">Registra</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <% users.forEach(function(element){%>
+                    <div class="col" style="margin-top: 5%;">
+                        <div class="card h-100">
+                            <div class="card-header" style="padding: 7%;">
+                                <div style="text-align: right;"><img
+                                        src="/images/delete.png"
+                                        onclick="deleteUser('<%=element.username%>')"
+                                        style="cursor:pointer;width: 35px;" alt=""></div>
+                                <img src="/images/user_<%=element.userType%>.png"
+                                    class="card-img-top" alt="...">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <%=element.lastname%>
+                                        <%=element.name%>
+                                </h5>
+                                <p class="card-text">
+                                    Username
+                                    <b>
+                                        <%=element.username%>
+                                    </b>
+                                </p>
+                                
+                            </div>
+
+                        </div>
+                    </div>
+                    <%});%>
+
+            </div>
+        </div>
+
+
+
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        
+        <!-- Footer -->
+        <footer class="bg-dark  text-lg-start">
+            <!-- Grid container -->
+            <div class="container p-4">
+                <!--Grid row-->
+                <div class="row">
+                    <!--Grid column-->
+                    <div class="col-lg-9 col-md-12 mb-4 mb-md-0">
+                        <h5 class="text-uppercase"><span style="color: #eeeeee;">Company Assistant</span></h5>
+
+                        <p>
+                            <span style="color: #eeeeee;">Company assistant sfrutta le tecnologie Cloud di Microsoft
+                                Azure per semplificare ed ottimizzare il lavoro della tua compagnia.</span>
+                        </p>
+                    </div>
+                    <!--Grid column-->
+
+
+
+                    <!--Grid column-->
+                    <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                        <h5 class="text-uppercase mb-0"><span style="color: #eeeeee;">Contattaci</span></h5>
+
+                        <ul class="list-unstyled">
+                            <li>
+                                <a href="#!" class="text-light">l.fasolino4@studenti.unisa.it</a>
+                            </li>
+                            <li>
+                                <a href="#!" class="text-light">m.egidio2@studenti.unisa.it</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--Grid column-->
+                </div>
+                <!--Grid row-->
+            </div>
+            <!-- Grid container -->
+
+            <!-- Copyright -->
+            <div class="text-center p-3" style="background-color: #141414">
+                <span style="color: #eeeeee;">© 2021 Copyright:</span>
+                <a class="text-light" href="#">Lorenzo Fasolino</a>
+                <a class="text-light" href="#">Mario Egidio</a>
+            </div>
+            <!-- Copyright -->
+        </footer>
+        <!-- Footer -->
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+        <script src="https://getbootstrap.com/docs/5.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+            crossorigin="anonymous"></script>
+    </body>
+
+    </html>
+
+
+    <%}else{%>
+
+        <html>
+
+        <body>
+            <script>
+                window.location.href = './loginPage';
+            </script>
+        </body>
+
+        </html>
+
+        <%}%>
+
+            <%}else{%>
+
+                <html>
+
+                <body>
+                    <script>
+                        window.location.href = './loginPage';
+                    </script>
+                </body>
+
+                </html>
+
+                <%}%>

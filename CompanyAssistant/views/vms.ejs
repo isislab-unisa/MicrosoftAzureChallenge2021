@@ -1,0 +1,800 @@
+<%if (user !=null) {%>
+
+    <!DOCTYPE html>
+    <html>
+
+    <head>
+        <title>
+            <%= title %>
+        </title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel='stylesheet' href='/stylesheets/style.css' />
+        <link rel='stylesheet' href='/stylesheets/popup.css' />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+        <!--<meta http-equiv="refresh" content="60">-->
+        <script src='/script.js'></script>
+
+        <style>
+            .card-i-top {
+                width: 30%;
+            }
+            
+            input::-webkit-contacts-auto-fill-button,
+            input::-webkit-credentials-auto-fill-button {
+                visibility: hidden;
+                pointer-events: none;
+                position: absolute;
+                right: 0;
+            }
+        </style>
+
+        <%if (user.userType=="admin" ) {%>
+            <script>
+                function send() {
+                    name = document.getElementById('inputName').value;
+                    username = document.getElementById('inputUsername').value;
+                    password = document.getElementById('inputPassword').value;
+                    vmSize = document.getElementById('vmType').value;
+                    os = document.getElementById('osType').value;
+
+                    regexPassword = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+                    regexName = new RegExp("[a-z0-9]{5,}");
+                    regexUsername = new RegExp("[a-z0-9]{5,}");
+
+                    if (name.trim().length == 0) {
+                        mostraAlert("Il campo nome è obbligatorio!")
+                    } else {
+                        if (!regexName.test(name)) {
+                            mostraAlert("Il campo nome non rispetta il formato!")
+                        } else {
+                            if (username.trim().length == 0) {
+                                mostraAlert("Il campo username è obbligatorio!")
+                            } else {
+                                if (!regexUsername.test(username)) {
+                                    mostraAlert("Il campo username non rispetta il formato!")
+                                } else {
+                                    if (password.trim().length == 0) {
+                                        mostraAlert("Il campo password è obbligatorio!")
+                                    } else {
+                                        if (!regexPassword.test(password)) {
+                                            mostraAlert("Il campo password non rispetta il formato!")
+                                        } else {
+
+
+                                            mostraAlertConfirm("", os, vmSize);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                function mostraAlertConfirm(msg, os, vmSize) {
+                    document.getElementById("alertBoxConfirm").style.display = "block";
+                    document.getElementById("Selezionata").innerHTML =
+                        "<center>" +
+                        "<span style=\"padding-top: 5px;\">" +
+                        "<h6 class=\"card-title\">Configurazione Selezionata</h6>" +
+                        "</span>" +
+                        "<img src=\"images/image" + os + ".png\" class=\"rounded\" style=\"width: 100px;\">" +
+                        "</center>" +
+                        "<div class=\"card-body\">" +
+                        "<h6 class=\"card-title\">" + vmSize + "</h6>" +
+                        "</div>" +
+                        "<input type=\"radio\" class=\"btn-check\" name=\"options-outlined\" id=\"danger-outlined\" autocomplete=\"off\" checked>" +
+                        "<label class=\"btn btn-outline-danger\" for=\"danger-outlined\">Usa Selezionata</label>";
+                    document.getElementById("back").style.display = "block";
+                }
+
+                function creaMacchina() {
+                    tagsChecked = []
+                    $("input:checkbox[name=tagsValue]:checked").each(function() {
+                        tagsChecked.push($(this).attr('id'));
+                    });
+                    $("input:checkbox[name=tagsValueManuali]:checked").each(function() {
+                        tagsChecked.push($(this).attr('id'));
+                    });
+
+                    name = document.getElementById('inputName').value;
+                    username = document.getElementById('inputUsername').value;
+                    password = document.getElementById('inputPassword').value;
+                    vmSize = "";
+                    os = "";
+
+                    if ($('#success-outlined').is(':checked')) {
+                        vmSize = document.getElementById('vmTypeSuggerita').value;
+                        os = document.getElementById('osSuggerito').value;
+                    } else {
+                        vmSize = document.getElementById('vmType').value;
+                        os = document.getElementById('osType').value
+                    }
+
+                    var tagsToSend;
+
+                    if (tagsChecked.length > 0) {
+                        tagsToSend = JSON.stringify(tagsChecked);
+                    } else {
+                        tagsToSend = "[]";
+                    }
+
+                    mostraAlert("Ho ricevuto la richiesta!")
+                    $.post("./createVM", {
+                            name: name,
+                            username: username,
+                            password: password,
+                            vmSize: vmSize,
+                            os: os,
+                            tagsChecked: tagsToSend
+                        },
+                        function(data, status) {
+                            if (status == "success" && !data.error) {
+
+                                if (os == "windows") {
+                                    mostraAlertReload("Tra qualche minuto la tua macchina Windows sarà pronta! <br> Scarica <a href='https://docs.microsoft.com/it-it/windows-server/remote/remote-desktop-services/clients/remote-desktop-clients'>Microsoft Remote Desktop</a> per poterla utilizzare!")
+                                } else {
+                                    mostraAlertReload("Tra qualche minuto la tua macchina Ubuntu sarà pronta! <br> Scarica <a href='https://www.realvnc.com/en/connect/download/viewer/'>VNC Viewer</a> per poterla utilizzare!")
+                                }
+                            } else {
+                                mostraAlertReload(data.error)
+                            }
+                        });
+                }
+
+
+
+                function deleteVM(name) {
+
+                    var r = confirm("Sei sicuro di voler eliminare " + name + "?");
+                    if (r == true) {
+                        $.post("./deleteVM", {
+                                name: name
+                            },
+                            function(data, status) {
+                                if (status == "success") {
+                                    mostraAlertReload("Tra qualche minuto la tua macchina sarà eliminata!")
+                                }
+                            });
+                    }
+                }
+
+                function getTopIntent() {
+
+                    question = document.getElementById('inputQuestion').value;
+                    $.post("./sendQuestionToLuis", {
+                            question: question
+                        },
+                        function(data, status) {
+                            if (status == "success") {
+
+                                //alert(JSON.stringify(data.tags));
+
+                                document.getElementById("Suggerita").innerHTML =
+                                    "<center>" +
+                                    "<span style=\"padding-top: 5px;\">" +
+                                    "<h6 class=\"card-title\">Configurazione Suggerita</h6>" +
+                                    "</span>" +
+                                    "<img src=\"images/image" + data.os + ".png\" class=\"rounded\" style=\"width: 100px;\">" +
+                                    "</center>" +
+                                    "<div class=\"card-body\">" +
+                                    "<h6 class=\"card-title\">" +
+                                    "<input type=\"text\" readonly id=\"osSuggerito\" value=" + data.os + " style=\"margin: 0; padding:0; border:0; width:70px; \" hidden />" +
+                                    "&nbsp; <input type=\"text\" readonly id=\"vmTypeSuggerita\" value=" + data.vmSize + " style=\"margin: 0; padding:0; border:0;width:110px;\" />" +
+                                    "</h6>" +
+                                    "</div>" +
+                                    "<input type=\"radio\" class=\"btn-check\" name=\"options-outlined\" id=\"success-outlined\" autocomplete=\"off\" >" +
+                                    "<label class=\"btn btn-outline-success\" for=\"success-outlined\">Usa Suggerita</label>";
+
+                                elencoTag = "<div style=\"display: inline-block;\">";
+                                data.tags.forEach(element => elencoTag += " <input type=\"checkbox\" name=\"tagsValue\" class=\"btn-check\" id=" + element.tag + " autocomplete=\"off\"> <label class=\"btn btn-outline-primary\" for=" + element.tag + ">" + element.tag + "</label>");
+                                elencoTag += "</div>";
+                                document.getElementById("tags").innerHTML = elencoTag;
+
+                                document.getElementById("back").style.display = "block";
+                            }
+                        });
+                }
+
+
+                function addTag() {
+                    tagsNumber = []
+                    $("input:checkbox[name=tagsValueManuali]").each(function() {
+                        tagsNumber.push($(this).attr('id'));
+                    });
+                    newTag = document.getElementById('inputnewTag').value;
+                    if (newTag.trim().length > 3) {
+                        if (tagsNumber.length > 0) {
+                            oldTags = document.getElementById("tagsManuali").innerHTML;
+                            oldTags = oldTags.slice(0, -6);
+                            oldTags += " <input type=\"checkbox\" name=\"tagsValueManuali\" class=\"btn-check\" id=" + newTag + " autocomplete=\"off\"> <label class=\"btn btn-outline-primary\" for=" + newTag + ">" + newTag + "</label>";
+                            oldTags += "</div>";
+                            document.getElementById("tagsManuali").innerHTML = oldTags;
+                        } else {
+                            elencoTag = "<div style=\"display: inline-block;\">";
+                            elencoTag += " <input type=\"checkbox\" name=\"tagsValueManuali\" class=\"btn-check\" id=" + newTag + " autocomplete=\"off\"> <label class=\"btn btn-outline-primary\" for=" + newTag + ">" + newTag + "</label>";
+                            elencoTag += "</div>";
+                            document.getElementById("tagsManuali").innerHTML = elencoTag;
+                        }
+                        document.getElementById('inputnewTag').value = "";
+                    } else mostraAlert("Devi inserire almeno tre caratteri!")
+                }
+
+
+                var selectedTags = [];
+
+                function filterByTag(tagName) {
+
+                    if ($('#' + tagName).is(':checked')) {
+                        selectedTags.push(tagName)
+                    } else {
+                        selectedTags = selectedTags.filter(e => e !== tagName);
+                    }
+                    $.post("./filterByTags", {
+                            tags: JSON.stringify(selectedTags)
+                        },
+                        function(data, status) {
+                            if (status == "success") {
+                                //virtualMachines
+                                divCreazione = "<div class='col' style='margin-top: 5%;'>" +
+                                    "<div class='card h-100'>" +
+                                    "<div class='card-header'>" +
+                                    "<h5 class='card-title'> Crea macchina virtuale </h5>" +
+                                    "</div>" +
+                                    "<div class='card-body'>" +
+                                    "<div style='padding: 5px 1%;'>" + "<input type='text' name='name' id='inputName' class='form-control' placeholder='Nome Macchina' required='' autofocus=''>" + "</div>" +
+                                    "<div style='padding: 5px 1%;'>" + "<input type='text' name='username' id='inputUsername' class='form-control' placeholder='Username' required='' autofocus=''>" + "</div>" +
+                                    "<div style='padding: 5px 1%;'>" + "<input type='password' name='password' id='inputPassword' class='form-control' placeholder='Password' required=''>" + "</div>" +
+                                    "<div style='padding: 5px 1%; text-align:left;'>" +
+                                    "<label for='osType'> Sistema Operativo </label>" +
+                                    "<select class='form-control' id='osType'>" +
+                                    "<!--fare un for con i tipi-->" +
+                                    "<option value='ubuntu'>ubuntu</option>" +
+                                    "<option value='windows'>windows</option>" +
+                                    "<option value='redHat' disabled>redHat</option>" +
+                                    "<option value='centOs' disabled>centOs</option>" +
+                                    "</select>" +
+                                    "</div>" +
+                                    "<div style='padding: 5px 1%; text-align:left;'>" +
+                                    "<label for='vmType'>Tipo Macchina</label>" +
+                                    "<select class='form-control' id='vmType'>" +
+                                    "<!--fare un for con i tipi-->" +
+                                    "<option value='Standard_B1s'>1 core 1GB di RAM</option>" +
+                                    "<option value='Standard_B2s'>2 core 4GB di RAM</option>" +
+                                    "<option value='Standard_B4ms'>4 core 16GB di RAM</option>" +
+                                    "<option disabled value='Standard_B1s'>16 core 64GB di RAM</option>" +
+                                    "<option disabled value='Standard_B1s'>20 core 80GB di RAM</option>" +
+                                    "</select>" +
+                                    "</div>" +
+                                    "</div>" +
+                                    "<div class='card-footer' style='padding: 5%;text-align:center; '>" +
+                                    "<img src='/images/plus.png' style='cursor:pointer;' onclick='send()' class='card-img-top card-i-top' alt='...'>" + "</div>" +
+                                    "</div>" +
+                                    "</div>";
+                                machineSection = "";
+
+                                // for macchine
+                                data.virtualMachines.forEach(element => {
+                                    machineSection += "<div class='col' style='margin-top: 5%;'>" +
+                                        "<div class='card h-100'>" +
+                                        "<div class='card-header'>" +
+                                        "<div style='text-align: right;'><img src='/images/delete.png' onclick=\"deleteVM('" + element.name + "')\" style='cursor:pointer;width: 35px;' alt=''></div>" +
+                                        "<div style='padding: 7%;'><img src='/images/image" + element.osType + ".png' class='card-img-top' alt='...'>" +
+                                        "</div>" +
+                                        "</div>" +
+                                        "<div class='card-body'>" +
+                                        "<div ";
+                                    if (element.ipAddr != null && element.utente == null && element.inUse == 0) {
+                                        machineSection += " style='cursor:pointer;' onclick=\"useVM('" + element.name + "')\"";
+                                    } else {
+                                        if (element.ipAddr != null && element.inUse == 1 && element.utente == data.user.username) {
+                                            machineSection += " style='cursor:pointer;' onclick=\"stopVM('" + element.name + "')\"";
+                                        }
+                                    }
+                                    machineSection += " ><h5 class='card-title'>" + element.name +
+                                        " <p class='card-text' style = 'font-size: 0.6em;' >" + element.description + "</p ></h5 >" +
+                                        "<p class='card-text'>" + element.state + "</p>";
+                                    if (element.ipAddr != null) {}
+                                    if (element.ipAddr != null && element.utente == null && element.inUse == 0) {
+                                        machineSection += "<p class='card-text' style='font-size:12px;'>( Clicca per usare <img src='https://www.cobrafiringsystems.com/static/icon-use.png' alt='' style='width: 25px;'>) </p>";
+                                    } else {
+                                        if (element.ipAddr != null && element.inUse == 1 && element.utente == data.user.username) {
+                                            machineSection += "<p class='card-text' style='font-size:12px;'>( Clicca per stoppare <img src='https://www.cobrafiringsystems.com/static/icon-use.png' alt='' style='width: 25px;'>) </p>";
+                                        }
+                                    }
+                                    machineSection += "</div>";
+                                    if (element.ipAddr != null && element.inUse == 1 && element.utente == data.user.username) {
+                                        machineSection += "   <p class='card-text'>IP:" + element.ipAddr + "</p>";
+                                    }
+                                    machineSection += "</div><div class='card-footer'>";
+                                    if (element.inUse == 0) {
+                                        machineSection += "<span class='free'></span><small class='text-muted'>Libera</small>";
+                                    } else if (element.inUse == 1) {
+                                        machineSection += "<span class='inUse'></span><small class='text-muted'>In uso</small>";
+                                    }
+
+                                    machineSection += "</div>";
+                                    machineSection += "</div>";
+                                    machineSection += "</div>";
+
+                                });
+                                //fine for macchine
+
+                                inner_html = divCreazione + machineSection;
+                                document.getElementById("divMacchine").innerHTML = inner_html;
+                            }
+                        });
+                }
+            </script>
+            <% } %>
+
+                <%if (user.userType=="dipendente" ) {%>
+                    <script>
+                        var selectedTags = [];
+
+                        function filterByTag(tagName) {
+
+                            if ($('#' + tagName).is(':checked')) {
+                                selectedTags.push(tagName)
+                            } else {
+                                selectedTags = selectedTags.filter(e => e !== tagName);
+                            }
+                            $.post("./filterByTags", {
+                                    tags: JSON.stringify(selectedTags)
+                                },
+                                function(data, status) {
+                                    if (status == "success") {
+                                        //virtualMachines
+                                        divCreazione = "<div class=\"card-body\"><span class=\"card-title\" style=\"font-weight: 600;font-size:20px;\"> Non sono disponibili Macchine Virtuali al momento! Chiedi ad un amministratore di crearne una!</span></div>";
+                                        machineSection = "";
+                                        if (data.virtualMachines.length <= 0) {
+                                            inner_html = divCreazione;
+                                            document.getElementById("divMacchine").innerHTML = inner_html;
+                                        } else {
+                                            // for macchine
+                                            data.virtualMachines.forEach(element => {
+                                                machineSection += "<div class='col' style='margin-top: 5%;'>" +
+                                                    "<div class='card h-100'>" +
+                                                    "<div class='card-header'>" +
+                                                    "<div style='text-align: right;'><img src='/images/delete.png' onclick=\"deleteVM('" + element.name + "')\" style='cursor:pointer;width: 35px;' alt=''></div>" +
+                                                    "<div style='padding: 7%;'><img src='/images/image" + element.osType + ".png' class='card-img-top' alt='...'>" +
+                                                    "</div>" +
+                                                    "</div>" +
+                                                    "<div class='card-body'>" +
+                                                    "<div ";
+                                                if (element.ipAddr != null && element.utente == null && element.inUse == 0) {
+                                                    machineSection += " style='cursor:pointer;' onclick=\"useVM('" + element.name + "')\"";
+                                                } else {
+                                                    if (element.ipAddr != null && element.inUse == 1 && element.utente == data.user.username) {
+                                                        machineSection += " style='cursor:pointer;' onclick=\"stopVM('" + element.name + "')\"";
+                                                    }
+                                                }
+                                                machineSection += " ><h5 class='card-title'>" + element.name +
+                                                    " <p class='card-text' style = 'font-size: 0.6em;' >" + element.description + "</p ></h5 >" +
+                                                    "<p class='card-text'>" + element.state + "</p>";
+                                                if (element.ipAddr != null) {}
+                                                if (element.ipAddr != null && element.utente == null && element.inUse == 0) {
+                                                    machineSection += "<p class='card-text' style='font-size:12px;'>( Clicca per usare <img src='https://www.cobrafiringsystems.com/static/icon-use.png' alt='' style='width: 25px;'>) </p>";
+                                                } else {
+                                                    if (element.ipAddr != null && element.inUse == 1 && element.utente == data.user.username) {
+                                                        machineSection += "<p class='card-text' style='font-size:12px;'>( Clicca per stoppare <img src='https://www.cobrafiringsystems.com/static/icon-use.png' alt='' style='width: 25px;'>) </p>";
+                                                    }
+                                                }
+                                                machineSection += "</div>";
+                                                if (element.ipAddr != null && element.inUse == 1 && element.utente == data.user.username) {
+                                                    machineSection += "   <p class='card-text'>IP:" + element.ipAddr + "</p>";
+                                                }
+                                                machineSection += "</div><div class='card-footer'>";
+                                                if (element.inUse == 0) {
+                                                    machineSection += "<span class='free'></span><small class='text-muted'>Libera</small>";
+                                                } else if (element.inUse == 1) {
+                                                    machineSection += "<span class='inUse'></span><small class='text-muted'>In uso</small>";
+                                                }
+
+                                                machineSection += "</div>";
+                                                machineSection += "</div>";
+                                                machineSection += "</div>";
+
+                                            });
+                                            //fine for macchine
+
+                                            inner_html = machineSection;
+                                            document.getElementById("divMacchine").innerHTML = inner_html;
+                                        }
+                                    }
+                                });
+                        }
+                    </script>
+
+                    <% } %>
+                        <script>
+                            function useVM(name) {
+                                name = name.trim()
+                                var r = confirm("Vuoi iniziare ad utilizzare " + name + "? \n\n(non sarà più disponibile agli altri finchè non stopperai manualmente la sessione)");
+                                if (r == true) {
+                                    $.post("./useVM", {
+                                            name: name,
+                                            user: "<%=user.username%>"
+                                        },
+                                        function(data, status) {
+                                            if (status == "success") {
+                                                mostraAlertReload("Tutto è pronto per utilizzarla!")
+                                            }
+                                        });
+                                }
+                            }
+
+
+                            function stopVM(name) {
+
+                                var r = confirm("Vuoi stoppare " + name + "? \n\n");
+                                if (r == true) {
+                                    $.post("./stopVM", {
+                                            name: name,
+                                            user: "<%=user.username%>"
+                                        },
+                                        function(data, status) {
+                                            if (status == "success") {
+                                                mostraAlertReload("La macchina è stata liberata!")
+                                            }
+                                        });
+                                }
+                            }
+                        </script>
+    </head>
+
+
+    <body style="padding:0;padding-bottom:0px;margin:0;">
+
+        <!-- Alert Section -->
+        <div id="alertBox">
+            <label id="msg"></label>
+            <p style="text-align: center;">
+                <input value="ok" id="btnA" type="button" onClick='nascondiDIV();'>
+            </p>
+        </div>
+        <div id="alertBoxReload">
+            <label id="msgReload"></label>
+            <p style="text-align: center;">
+                <input value="ok" id="btnA" type="button" onClick='nascondiDIV(),aggiorna();'>
+            </p>
+        </div>
+        <div id="alertBoxConfirm">
+            <!--<label id="msgConfirm">In base al tipo di utilizzo ti verrà suggerita una macchina adatta a te!</label>-->
+            <br><label>In base al tuo tipo di utilizzo verrà suggerita una macchina adeguata alle tue esigenze!</label>
+            <div style="min-width:50%;padding: 5px 1%;margin-top:20px;">
+                <input type="text" onsubmit="getTopIntent()" ondrop="getTopIntent()" onchange="getTopIntent()" name="question" id="inputQuestion" class="form-control" placeholder="Per cosa userai la macchina che stai creando?" required="">
+            </div>
+            <div style="padding: 5px 1%; text-align:left;">
+                <label for="configurazioni"></label>
+                <div style="width: 100%;text-align:center; padding:5px; ">
+                    <center>
+                        <div class="row row-cols-1 row-cols-md-2 g-4" style="padding: 0px 5%;" id="divMacchine">
+                            <div class="col" style="margin-top: 5%;">
+                                <div class="card w-75" style="text-align: center;padding: 10px 20px;" id="Selezionata">
+                                    <br><br>
+                                </div>
+                            </div>
+                            <div class="col" style="margin-top: 5%;">
+
+                                <div class="card  w-75" style="text-align: center;padding: 10px 20px;" id="Suggerita">
+                                    <center>
+                                        <span style="padding-top: 5px;">
+                                            <h6 class="card-title">Configurazione Suggerita</h6>
+                                        </span>
+                                        <img src="images/image.png" class="rounded" style="width: 100px;" alt="...">
+                                    </center>
+                                    <div class="card-body">
+                                        <h6 class="card-title">
+                                            <input type="text" readonly id="osSuggerito" value="S.O." style="margin: 0; padding:0; border:0; width:70px;" hidden /> &nbsp;
+                                            <input type="text" readonly id="vmTypeSuggerita" value="Nessuna" style="margin: 0; padding:0; border:0;width:70px;" />
+                                        </h6>
+                                    </div>
+
+                                    <input type="radio" class="btn-check" name="options-outlined" id="success-outlined" autocomplete="off" disabled>
+                                    <label class="btn btn-outline-success" for="success-outlined">Usa
+                                        Suggerita</label>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </center>
+                </div>
+            </div>
+            <div style="padding: 5px 1%; text-align:left;">
+                <label for="tags">Clicca per aggiungere i tag suggeriti alla tua macchina!</label>
+                <div id="tags" class="horizontal-tag">
+                    <div style="display: inline-block;">
+                        <span>Inserisci il tipo di utilizzo per visualizzare i tag suggeriti!</span>
+
+                    </div>
+
+                </div>
+                <div id="tagsManuali" class="horizontal-tag">
+                    <div style="display: inline-block;">
+                        <span>Qui visualizzerai i tag aggiunti manualmente!</span>
+
+                    </div>
+
+                </div>
+                <div style="min-width:50%;padding: 5px 1%;margin-top:3px;">
+                    <input type="text" onsubmit="addTag()" ondrop="addTag()" onchange="addTag()" name="newTag" id="inputnewTag" class="form-control" placeholder="Example ..." required="">
+                </div>
+            </div>
+            <br><br>
+            <p style="text-align: center;">
+                <input value='Annulla' id='btnAnnulla' type='button' onClick='nascondiDIV();'> &nbsp;
+                <input value='Procedi' id='btnProcedi' type='button' onClick='nascondiDIV(),creaMacchina();'>
+            </p>
+        </div>
+        <div id="back">
+        </div>
+        <!-- End Alert -->
+
+        <!-- MENU SECTION -->
+        <div class="card" style="padding: 0;margin-bottom:10px;margin:0; border:none">
+            <div class="card-body" style="padding: 5;margin:0;padding-bottom:15px;border-bottom: 1px solid rgb(187, 179, 179);  box-shadow: 1px 1px #eeeeee;">
+
+
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="#">CompanyAssistant</a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarText">
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                <li class="nav-item" style="padding: 0% 10px;">
+                                    <a class="nav-link" href="./index">Home</a>
+                                </li>
+                                <%if (user.userType=="admin" ){%>
+                                    <li class="nav-item" style="padding: 0% 10px;">
+                                        <a class="nav-link" href="./users">Utenti</a>
+                                    </li>
+                                    <%}%>
+                                        <li class="nav-item" style="padding: 0% 10px;">
+                                            <a class="nav-link active" aria-current="page" style="color: #0062cc;" href="./vms">Macchine Virtuali</a>
+                                        </li>
+                                        <li class="nav-item" style="padding: 0% 10px;">
+                                            <a class="nav-link" href="./bot">Company BOT</a>
+                                        </li>
+                                        <li class="nav-item" style="padding: 0% 10px;">
+                                            <a class="nav-link" href="./info">Info</a>
+                                        </li>
+                            </ul>
+                            <span class="navbar-text">
+                                <button class="btn btn-primary my-2 my-sm-0" type="button"
+                                    onclick="logout()">Logout</button>
+                            </span>
+                        </div>
+                </nav>
+                </div>
+            </div>
+
+            <!-- MENU SECTION -->
+            <div class="container" style="margin-top: 2%;">
+
+                <!--  TAG RICERCA   -->
+                <div id="tagsRicerca" class="card horizontal-tag small-padding">
+                    <div class="card-body" style="display: inline-block;">
+                        <% tags.forEach(function(element){ %>
+                            <input type="checkbox" name="tagsValueRicerca" class="btn-check" id="<%= element.name %>" autocomplete="off" onclick="filterByTag('<%= element.name %>')">
+                            <label class="btn btn-outline-primary" for="<%= element.name %>">
+                            <%= element.name %>
+                        </label>
+                            <% }); %>
+                    </div>
+                </div>
+                <!--  FINE TAG RICERCA   -->
+
+                <%if (user.userType=="dipendente" ) { if(virtualMachines.length<=0){%>
+                    <br><br>
+                    <br><br>
+                    <br><br>
+                    <div class="card " style="text-align:center;padding:20px 10px;" id="divMacchine">
+                        <div class="card-body"><span class="card-title" style="font-weight: 600;font-size:20px;"> Non sono
+                            disponibili Macchine Virtuali al momento! Chiedi ad un amministratore di crearne
+                            una!</span>
+                        </div>
+                    </div>
+                    <br><br>
+                    <br><br>
+                    <br><br>
+                    <br><br>
+                    <br><br>
+                    <%}%>
+                        <%}%>
+
+                            <div class="row row-cols-1 row-cols-md-5 g-4" style="padding: 15;" id="divMacchine">
+
+
+                                <%if (user.userType=="admin" ) {%>
+
+                                    <!-- CREA VM SECTION -->
+                                    <div class="col" style="margin-top: 5%;">
+                                        <div class="card h-100">
+                                            <div class="card-header">
+                                                <h5 class="card-title">
+                                                    Crea macchina virtuale
+                                                </h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <div style="padding: 5px 1%;"><input type="text" name="name" id="inputName" class="form-control" placeholder="Nome Macchina" required="" autofocus=""></div>
+                                                <div style="padding: 5px 1%;"><input type="text" name="username" id="inputUsername" class="form-control" placeholder="Username" required="" autofocus=""></div>
+                                                <div style="padding: 5px 1%;"><input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required=""></div>
+                                                <div style="padding: 5px 1%; text-align:left;">
+                                                    <label for="osType">Sistema Operativo</label>
+                                                    <select class="form-control" id="osType">
+                                                    <!--fare un for con i tipi-->
+                                                    <option value="ubuntu">ubuntu</option>
+                                                    <option value="windows">windows</option>
+                                                    <option value="redHat" disabled>redHat</option>
+                                                    <option value="centOs" disabled>centOs</option>
+                                                </select>
+                                                </div>
+
+                                                <div style="padding: 5px 1%; text-align:left;">
+                                                    <label for="vmType">Tipo Macchina</label>
+                                                    <select class="form-control" id="vmType">
+                                                    <!--fare un for con i tipi-->
+                                                    <option value="Standard_B1s">1 core 1GB di RAM</option>
+                                                    <option value="Standard_B2s">2 core 4GB di RAM</option>
+                                                    <option value="Standard_B4ms">4 core 16GB di RAM</option>
+                                                    <option disabled value="Standard_B1s">16 core 64GB di RAM</option>
+                                                    <option disabled value="Standard_B1s">20 core 80GB di RAM</option>
+                                                </select>
+                                                </div>
+                                            </div>
+                                            <div class="card-footer" style="padding: 5%;text-align:center; "><img src="/images/plus.png" style="cursor:pointer;" onclick="send()" class="card-img-top card-i-top" alt="..."></div>
+                                        </div>
+                                    </div>
+
+                                    <!-- END CREA VM SECTION -->
+                                    <%}%>
+
+                                        <% virtualMachines.forEach(function(element){%>
+                                            <div class="col" style="margin-top: 5%;">
+                                                <div class="card h-100">
+                                                    <div class="card-header">
+                                                        <%if (user.userType=="admin" ) {%>
+                                                            <div style="text-align: right;"><img src="/images/delete.png" onclick="deleteVM('<%=element.name%>')" style="cursor:pointer;width: 35px;" alt=""></div>
+                                                            <%}%>
+                                                                <div style="padding: 7%;"><img src="/images/image<%=element.osType%>.png" class="card-img-top" alt="...">
+                                                                </div>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div <%if(element.ipAddr!=null && element.utente==null && element.inUse==0){ %>
+                                                            style="cursor:pointer;" onclick="useVM('
+                                                            <%=element.name%>')"
+                                                                <%} else { if(element.ipAddr!=null && element.inUse==1 &&
+                                                                element.utente==user.username){%>
+                                                                    style="cursor:pointer;" onclick="stopVM('
+                                                                    <%=element.name%>')"
+                                                                        <%}}%>>
+                                                                            <h5 class="card-title">
+                                                                                <%=element.name%>
+                                                                                    <p class="card-text" style="font-size: 0.6em;">
+                                                                                        <%=element.description%>
+                                                                                    </p>
+                                                                            </h5>
+                                                                            <p class="card-text">
+                                                                                <%=element.state%>
+                                                                            </p>
+
+                                                                            <%if(element.ipAddr!=null){ %>
+
+                                                                                <%}%>
+                                                                                    <%if(element.ipAddr!=null &&
+                                                                                    element.utente==null &&
+                                                                                    element.inUse==0){ %>
+                                                                                        <p class="card-text" style="font-size:12px;">( Clicca per usare <img src="https://www.cobrafiringsystems.com/static/icon-use.png" alt="" style="width: 25px;">)
+                                                                                        </p>
+                                                                                        <%} else { if(element.ipAddr!=null
+                                                                                        && element.inUse==1 &&
+                                                                                        element.utente==user.username){%>
+                                                                                            <p class="card-text" style="font-size:12px;">( Clicca per stoppare <img src="https://www.cobrafiringsystems.com/static/icon-use.png" alt="" style="width: 25px;">)
+                                                                                            </p>
+
+                                                                                            <%}}%>
+                                                        </div>
+                                                        <% if(element.ipAddr!=null && element.inUse==1 &&
+                                                        element.utente==user.username){%>
+                                                            <p class="card-text">IP:
+                                                                <%=element.ipAddr%>
+                                                            </p>
+                                                            <%}%>
+                                                    </div>
+                                                    <div class="card-footer">
+                                                        <% if (element.inUse==0) {%>
+                                                            <span class="free"></span>
+                                                            <small class="text-muted">Libera</small>
+                                                            <% }else if (element.inUse==1){%>
+                                                                <span class="inUse"></span>
+                                                                <small class="text-muted">In uso</small>
+                                                                <%}%>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <%});%>
+
+                            </div>
+            </div>
+
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+
+            <!-- Footer -->
+            <footer class="bg-dark text-lg-start">
+                <!-- Grid container -->
+                <div class="container p-4">
+                    <!--Grid row-->
+                    <div class="row">
+                        <!--Grid column-->
+                        <div class="col-lg-9 col-md-12 mb-4 mb-md-0">
+                            <h5 class="text-uppercase"><span style="color: #eeeeee;">Company Assistant</span></h5>
+
+                            <p>
+                                <span style="color: #eeeeee;">Company assistant sfrutta le tecnologie Cloud di Microsoft
+                                Azure per semplificare ed ottimizzare il lavoro della tua compagnia.</span>
+                            </p>
+                        </div>
+                        <!--Grid column-->
+
+
+
+                        <!--Grid column-->
+                        <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                            <h5 class="text-uppercase mb-0"><span style="color: #eeeeee;">Contattaci</span></h5>
+
+                            <ul class="list-unstyled">
+                                <li>
+                                    <a href="#!" class="text-light">l.fasolino4@studenti.unisa.it</a>
+                                </li>
+                                <li>
+                                    <a href="#!" class="text-light">m.egidio2@studenti.unisa.it</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--Grid column-->
+                    </div>
+                    <!--Grid row-->
+                </div>
+                <!-- Grid container -->
+
+                <!-- Copyright -->
+                <div class="text-center p-3" style="background-color: #141414">
+                    <span style="color: #eeeeee;">© 2021 Copyright:</span>
+                    <a class="text-light" href="#">Lorenzo Fasolino</a>
+                    <a class="text-light" href="#">Mario Egidio</a>
+                </div>
+                <!-- Copyright -->
+            </footer>
+            <!-- Footer -->
+
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+            <script src="https://getbootstrap.com/docs/5.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    </body>
+
+    </html>
+    <%}else{%>
+
+        <html>
+
+        <body>
+            <script>
+                window.location.href = './loginPage';
+            </script>
+        </body>
+
+        </html>
+
+        <%}%>

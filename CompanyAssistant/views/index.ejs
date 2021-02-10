@@ -1,0 +1,264 @@
+<%if (user !=null) {%>
+
+
+    <!DOCTYPE html>
+    <html>
+
+    <head>
+        <title>
+            <%= title %>
+        </title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+        <style>
+            .carousel .item {
+                height: 40%;
+            }
+
+            .item img {
+                position: absolute;
+                top: 0;
+                left: 0;
+                min-height: 40%;
+            }
+
+            .carousel-item {
+                text-align: center !important;
+            }
+
+            .content {
+                padding: 3% 1%;
+            }
+        </style>
+        <script>
+            function logout() {
+                window.location.href = './logout';
+            }
+        </script>
+    </head>
+
+    <body style="padding:0;padding-bottom:0px;margin:0;">
+
+
+        <!-- MENU SECTION -->
+        <div class="card" style="padding: 0;margin-bottom:10px;margin:0; border:none">
+            <div class="card-body"
+                style="padding: 5;margin:0;padding-bottom:15px;border-bottom: 1px solid rgb(187, 179, 179);  box-shadow: 1px 1px #eeeeee;">
+
+
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="#">CompanyAssistant</a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false"
+                            aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarText">
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                <li class="nav-item" style="padding: 0% 10px;">
+                                    <a class="nav-link active" aria-current="page" style="color: #0062cc;"
+                                        href="./index">Home</a>
+                                </li>
+                                <%if (user.userType=="admin" ){%>
+                                    <li class="nav-item" style="padding: 0% 10px;">
+                                        <a class="nav-link" href="./users">Utenti</a>
+                                    </li>
+                                    <%}%>
+                                        <li class="nav-item" style="padding: 0% 10px;">
+                                            <a class="nav-link" href="./vms">Macchine Virtuali</a>
+                                        </li>
+                                        <li class="nav-item" style="padding: 0% 10px;">
+                                            <a class="nav-link" href="./bot">Company BOT</a>
+                                        </li>
+                                        <li class="nav-item" style="padding: 0% 10px;">
+                                            <a class="nav-link" href="./info">Info</a>
+                                        </li>
+                            </ul>
+                            <span class="navbar-text">
+                                <button class="btn btn-primary my-2 my-sm-0" type="button"
+                                    onclick="logout()">Logout</button>
+                            </span>
+                        </div>
+                </nav>
+            </div>
+        </div>
+
+        <!-- END MENU SECTION -->
+        <div class="content">
+            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel"
+                style="background-color: black;padding-top:5%;border-radius: 15px;">
+                <ol class="carousel-indicators">
+                    <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"></li>
+                    <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"></li>
+                    <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"></li>
+                </ol>
+                <div class="carousel-inner h-100">
+                    <div class="carousel-item active" data-bs-interval="2000">
+                        <center> <img src="images/efficiency.png" class="d-block w-75 rounded" alt="..."></center>
+                        <br><br><br><br>
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>Efficienza</h5>
+                            <p>Tieni bassi i tuoi costi.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item" data-bs-interval="2000">
+                        <center><img src="images/flexibility.png" class="d-block  w-75 rounded" alt="..."></center>
+                        <br><br><br><br>
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>Flessibilità</h5>
+                            <p>Accedi dovunque e con qualsiasi dispositivo.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <center><img src="images/power.png" class="d-block  w-75 rounded" alt="..."></center>
+                        <br><br><br><br>
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>Potenza</h5>
+                            <p>Crea la macchina adatta alle tue esigenze al volo.</p>
+                        </div>
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </a>
+            </div>
+            <br>
+            <br>
+            <p>
+            <div class="accordion" id="accordionExample" style="padding: 3% 3%;">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button " type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            Cosa mi offre Company Assistant?
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                        data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <strong>Efficienza, Potenza e Flessibilità.</strong> Grazie a Company Assistant non dovrai
+                            più preoccuparti della potenza di calcolo della tua compagnia. Se necessiti di macchine più
+                            performanti non devi fare altro che
+                            crearne una adatta alle tue esigenze.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Come posso creare una nuova Macchina Virtuale?
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse " aria-labelledby="headingTwo"
+                        data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <strong>Se sei un admin recati nella sezione Macchine Virtuali.</strong> Comparirà un
+                            pulsante
+                            <b>+</b>, premilo dopo aver inserito le credenziali e la macchina verrà creata.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            Se ho un problema come posso risolverlo?
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                        data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <strong>Recati nella sezione Company BOT.</strong> Provvederà lui stesso a rispondere ad
+                            ogni tua domanda.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </p>
+        </div>
+        <br>
+        <br>
+        <br>
+        <!-- Footer -->
+        <footer class="bg-dark text-lg-start">
+            <!-- Grid container -->
+            <div class="container p-4">
+                <!--Grid row-->
+                <div class="row">
+                    <!--Grid column-->
+                    <div class="col-lg-9 col-md-12 mb-4 mb-md-0">
+                        <h5 class="text-uppercase"><span style="color: #eeeeee;">Company Assistant</span></h5>
+
+                        <p>
+                            <span style="color: #eeeeee;">Company assistant sfrutta le tecnologie Cloud di Microsoft
+                                Azure per semplificare ed ottimizzare il lavoro della tua compagnia.</span>
+                        </p>
+                    </div>
+                    <!--Grid column-->
+
+
+
+                    <!--Grid column-->
+                    <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                        <h5 class="text-uppercase mb-0"><span style="color: #eeeeee;">Contattaci</span></h5>
+
+                        <ul class="list-unstyled">
+                            <li>
+                                <a href="#!" class="text-light">l.fasolino4@studenti.unisa.it</a>
+                            </li>
+                            <li>
+                                <a href="#!" class="text-light">m.egidio2@studenti.unisa.it</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--Grid column-->
+                </div>
+                <!--Grid row-->
+            </div>
+            <!-- Grid container -->
+
+            <!-- Copyright -->
+            <div class="text-center p-3" style="background-color: #141414">
+                <span style="color: #eeeeee;">© 2021 Copyright:</span>
+                <a class="text-light" href="#">Lorenzo Fasolino</a>
+                <a class="text-light" href="#">Mario Egidio</a>
+            </div>
+            <!-- Copyright -->
+        </footer>
+        <!-- Footer -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+        <script src="https://getbootstrap.com/docs/5.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+            crossorigin="anonymous"></script>
+    </body>
+
+    </html>
+
+
+    <%}else{%>
+
+        <html>
+
+        <body>
+            <script>
+                window.location.href = './loginPage';
+            </script>
+        </body>
+
+        </html>
+
+        <%}%>

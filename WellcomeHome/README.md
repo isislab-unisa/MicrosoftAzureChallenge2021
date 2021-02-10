@@ -48,7 +48,7 @@ La funzione ManagePeople effettua operazioni di inserimento o aggiornamento di i
 
 Infine sono presenti altre due funzioni StorageCleaner e CognitiveServiceCleaner che vengono eseguite rispettivamente ogni 15 minuti ed una volta a settimana. La prima elimina dal Blob Storage tutte le immagini caricate dalla camera che non sono state utilizzate nei 15 minuti precedenti, la seconda funzione invece serve per mantenere consistenti le informazioni che persistono nei Cognitive Services con quelle presenti nel database.
 
-![Architettura](/architettura.png)
+![Architettura](/WellcomeHome/architettura.png)
 *ps. Sia le Functions che il Bot comunicano con il servizio di Azure Key Vault per accedere alle informazioni sensibili.*
 
 ## Installazione e guida all'utilizzo

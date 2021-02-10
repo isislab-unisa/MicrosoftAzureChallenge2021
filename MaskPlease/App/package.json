@@ -1,0 +1,45 @@
+{
+  "scripts": {
+    "start": "react-native start",
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "web": "expo start --web",
+    "eject": "expo eject"
+  },
+  "dependencies": {
+    "@react-native-community/masked-view": "0.1.10",
+    "expo": "~40.0.0",
+    "expo-background-fetch": "~8.6.0",
+    "expo-camera": "~9.1.0",
+    "expo-linear-gradient": "~8.4.0",
+    "expo-location": "~10.0.0",
+    "expo-notifications": "~0.8.2",
+    "expo-permissions": "~10.0.0",
+    "expo-splash-screen": "~0.8.0",
+    "expo-status-bar": "~1.0.3",
+    "expo-task-manager": "~8.6.0",
+    "expo-updates": "~0.4.0",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
+    "react-native": "~0.63.4",
+    "react-native-app-intro-slider": "^4.0.4",
+    "react-native-azure-blob-storage": "^1.2.1",
+    "react-native-gesture-handler": "~1.8.0",
+    "react-native-reanimated": "~1.13.0",
+    "react-native-safe-area-context": "3.1.9",
+    "react-native-screens": "~2.15.0",
+    "react-native-unimodules": "~0.12.0",
+    "react-native-web": "~0.13.12",
+    "react-navigation": "^4.4.3",
+    "react-navigation-stack": "^2.10.2"
+  },
+  "devDependencies": {
+    "@babel/core": "~7.9.0",
+    "babel-jest": "~25.2.6",
+    "jest": "~25.2.6",
+    "react-test-renderer": "~16.13.1"
+  },
+  "private": true,
+  "name": "MaskPlease",
+  "version": "1.0.0"
+}

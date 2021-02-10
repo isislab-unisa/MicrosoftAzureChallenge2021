@@ -1,0 +1,20 @@
+{
+  "name": "twitch-modbot-direct-line",
+  "version": "1.0.0",
+  "description": "Twitch Direct Line implementation for modbot",
+  "main": "twitch-direct-line.js",
+  "dependencies": {
+    "botframework-directlinejs": "^0.13.1",
+    "dotenv": "^8.2.0",
+    "path": "^0.12.7",
+    "tmi.js": "^1.7.1",
+    "ws": "^7.4.3",
+    "xhr2": "^0.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

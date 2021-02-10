@@ -1,0 +1,21 @@
+{
+  "name": "discord-modbot-direct-line",
+  "version": "1.0.0",
+  "description": "Direct line implementation for modbot",
+  "main": "discord-direct-line.js",
+  "dependencies": {
+    "botframework-directlinejs": "^0.13.1",
+    "discord.js": "^12.5.1",
+    "dotenv": "^8.2.0",
+    "mime-types": "^2.1.28",
+    "path": "^0.12.7",
+    "ws": "^7.4.3",
+    "xhr2": "^0.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

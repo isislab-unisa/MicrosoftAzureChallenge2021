@@ -1,0 +1,65 @@
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/m">
+
+                       <TextView
+        android:id="@+id/HeadingMod"
+        android:text="Inserisci nuova nota"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#00000000"
+        android:textSize="25dp"
+        android:textColor="#282721"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+    />
+<EditText
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="Titolo"
+    android:id="@+id/titoloMod"
+    
+    />
+    <EditText
+        
+    android:layout_width="match_parent"
+    android:layout_height="250dp"
+    android:hint="Contenuto"
+    android:id="@+id/contenutoMod"
+    
+    />
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp" 
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
+
+    <Button
+         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+            android:padding="10dp"
+        android:layout_alignParentLeft="true"
+           android:layout_alignParentBottom="true" 
+            android:background="@drawable/mybutton"
+       android:id="@+id/mfoto"
+        android:text="Prendi testo da foto" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+           android:layout_alignParentBottom="true" 
+            android:background="@drawable/mybutton"
+        android:text="Modifica"
+             android:id="@+id/modifica"/>
+        </RelativeLayout>
+
+
+</LinearLayout>

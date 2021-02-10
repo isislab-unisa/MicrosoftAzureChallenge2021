@@ -1,0 +1,40 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="fill_parent"	
+android:layout_height="fill_parent"	
+    android:gravity="center"
+android:orientation="vertical">
+<TextView android:id="@+id/text"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Ciao, benvenuto"
+android:textSize="40dp"
+        
+ android:textColor="@color/scritte" 
+    android:textStyle="bold"/>
+
+    <TextView android:id="@+id/text2"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="in RecognitionNote!"
+android:textSize="40dp"
+        
+ android:textColor="@color/scritte" 
+    android:textStyle="bold"/>
+
+<Button	android:id="@+id/button"
+       android:onClick="login"
+        
+        android:layout_marginTop="150px"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+        android:background="@drawable/mybutton"
+android:text="Login"	/>
+
+<Button	android:id="@+id/buttonReg"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/mybutton"
+android:text="Registrazione"	/>
+</LinearLayout>

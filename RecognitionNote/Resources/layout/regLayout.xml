@@ -1,0 +1,47 @@
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:paddingLeft="16dp"
+android:gravity="center"
+android:paddingRight="16dp"
+android:orientation="vertical" >
+
+
+    <EditText
+        android:id="@+id/textUser"
+        android:inputType="text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Username"	/>
+    <EditText
+        android:id="@+id/password"
+        android:inputType="textPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password"	/>
+ <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:text="Inserisci una tua foto:"
+        />
+
+    <ImageView
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        android:id="@+id/frameImage"
+        android:src="@drawable/abc_ab_share_pack_mtrl_alpha"
+        android:layout_marginBottom="15.0dp"
+        android:layout_marginTop="15.0dp" 
+       
+     />
+    <Button
+android:id="@+id/registrati"
+android:layout_width="150dp"
+android:layout_height="wrap_content" 
+android:layout_gravity="right"
+android:background="@drawable/mybutton"
+android:text="Registrati"	/>
+    
+    </LinearLayout>

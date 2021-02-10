@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <!-- color for the app bar and other primary UI elements -->
+
+
+  <color name="colorPrimary">#ffe400</color>
+
+  <!-- a darker variant of the primary color, used forthe status bar (on Android 5.0+) and contextual app bars -->
+
+
+  <color name="colorPrimaryDark">#ccb800</color>
+
+  <!-- a secondary color for controls like checkboxes and text fields -->
+
+
+  <color name="colorAccent">#14a76c</color>
+
+  <color name="scritte">#282721</color>
+  <color name="testo">#ffffffff</color>
+
+
+  <color name="colorPrimaryAngry">#1E5C94</color>
+  <color name="colorPrimaryDarkAngry">#064A89</color>
+  <color name="colorBackgroudnAngry">#7FD5FF</color>
+
+  <color name="colorPrimaryHappiness">#ffff39</color>
+  <color name="colorPrimaryDarkHappiness">#ffe339</color>
+  <color name="colorBackgroudnHappiness">#FFFFCC</color>
+
+  <color name="colorPrimarySadness">#ABCDEF</color>
+  <color name="colorPrimaryDarkSadness">#88A4BF</color>
+  <color name="colorBackgroudnSadness">#DDEBF8</color>
+
+  <color name="colorPrimaryFear">#E7E7E7</color>
+  <color name="colorPrimaryDarkFear">#CFCFCF</color>
+  <color name="colorBackgroudnFear">#FFFCF1</color>
+
+  <color name="colorPrimarySurprise">#F4FF4C</color>
+  <color name="colorPrimaryDarkSurprise">#DBE544</color>
+  <color name="colorBackgroudnSurprise">#FAFFB7</color>
+
+  <color name="colorPrimaryContempt">#4651AC</color>
+  <color name="colorPrimaryDarkContempt">#384089</color>
+  <color name="colorBackgroudnContempt">#6475F6</color>
+
+  <color name="colorPrimaryDisgust">#4651AC</color>
+  <color name="colorPrimaryDarkDisgust">#384089</color>
+  <color name="colorBackgroudnDisgust">#6475F6</color>
+
+  <color name="colorPrimaryNeutral">#FFFF66</color>
+  <color name="colorPrimaryDarkNeutral">#FFF168</color>
+  <color name="colorBackgroudnNeutral">#FFFFB2</color>
+</resources>

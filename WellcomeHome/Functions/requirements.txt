@@ -1,0 +1,9 @@
+azure-functions
+azure-storage-blob
+azure-cognitiveservices-vision-face
+azure-identity
+azure-keyvault-secrets
+azure-cosmos
+msrest
+grpcio-tools
+Pillow

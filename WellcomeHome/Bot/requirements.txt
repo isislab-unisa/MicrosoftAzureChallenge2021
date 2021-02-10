@@ -1,0 +1,10 @@
+aiohttp
+botbuilder-core
+botbuilder-integration-aiohttp
+botbuilder-dialogs
+requests_oauthlib
+azure-identity
+azure-keyvault-secrets
+azure-keyvault-keys
+azure-cosmos
+azure-storage-blob

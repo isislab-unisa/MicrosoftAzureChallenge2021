@@ -1,0 +1,26 @@
+{
+    "operation": <operation>,
+    "data": <data>
+}
+
+# insert data
+{
+    "operation": "insert",
+    "data": {
+        "user_id": <user_id>,
+        "name": <name>,
+        "surname": <surname>,
+        "image_url": <image_url>
+    }
+}
+
+# update data
+{
+    "operation": "update",
+    "data": {
+        "image_url": <image_url>,
+        "id": <id>,
+        "person_id": <person_id>,
+        "person_group_id": <person_group_id>
+    }
+}

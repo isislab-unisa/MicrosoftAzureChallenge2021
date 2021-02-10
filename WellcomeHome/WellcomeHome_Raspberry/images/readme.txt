@@ -1,0 +1,1 @@
+In questa cartella vengono memorizzati in locale i frame che vengono caricati sul blob storage.

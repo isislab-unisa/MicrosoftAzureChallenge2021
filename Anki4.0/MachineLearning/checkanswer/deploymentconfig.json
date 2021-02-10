@@ -1,0 +1,12 @@
+{
+    "computeType": "aci",
+    "containerResourceRequirements":
+    {
+        "cpu": 2.5,
+        "memoryInGB": 5.0
+    },
+    "authEnabled": true,
+    "sslEnabled": false,
+    "appInsightsEnabled": false,
+    "scoringTimeoutMs" : 600000
+}

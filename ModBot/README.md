@@ -1,6 +1,6 @@
 # **ModBot**
 
-A tool for moderate language and contents in several chat platforms.
+A tool to moderate language and contents in several chat platforms.
 
 View the **live demo** (or [download it](Presentation/Demo.mov))!
 

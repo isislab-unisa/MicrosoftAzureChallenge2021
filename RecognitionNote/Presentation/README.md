@@ -1,3 +1,3 @@
-# Materiale per l'esposizion del progetto
+# Materiale per l'esposizione del progetto
 ## Slide di presentazione
 ## Demo video
